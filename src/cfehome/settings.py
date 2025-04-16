@@ -88,6 +88,24 @@ DATABASES = {
     }
 }
 
+DATABASE_URL = config("DATABASE_URL", cast=str, default="")
+if DATABASE_URL:
+    import dj_database_url
+
+    if DATABASE_URL.startswith("postgres://") or DATABASE_URL.startswith("postgresql://"):
+        # If the URL starts with postgres://, replace it with postgresql://
+        # This is necessary for compatibility with some database providers
+        # that use the postgres:// scheme.
+        # For example, Railway uses postgres://
+        # but it should be replaced with postgresql:// for Django.
+        # This is a workaround for the issue with dj-database-url
+        # not recognizing the postgres:// scheme.       
+        
+        DATABASES = {
+            "default": dj_database_url.config(
+                default=DATABASE_URL
+            )
+        }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
