@@ -144,6 +144,21 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# Send our static files here
+# Locked files that do not change during runtime
+# External static file server
+STATIC_ROOT = BASE_DIR / "static_root"
+STATIC_ROOT.mkdir(exist_ok=True, parents=True)
+
+# Retain a copy of static files here
+# Like custom css
+# Unlocked files that change during dev
+STATICFILES_DIRS = [
+
+    BASE_DIR / "staticfiles"
+
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
